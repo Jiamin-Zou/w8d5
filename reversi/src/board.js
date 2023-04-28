@@ -13,13 +13,15 @@ if (typeof window === 'undefined'){ //typeof only checks for primitive data type
 function _makeGrid () {
   const grid = Array(8).fill(null).map(() => Array(8).fill(undefined)); //need to fill with null to successfully map, default undefined array vals will not map
   // const grid = Array(8).map((el) => Array(8).fill(undefined)); //not work if don't fill outer arr.
-  [grid[3][4], grid[4][3]] = [new Piece("black"), new Piece("black")]; //swap two variables can be done if encapsulated in array
-  [grid[3][3], grid[4][4]] = [new Piece("white"), new Piece("white")];
+  grid[3][4] = new Piece("black");
+  grid[4][3] = new Piece("black"); //swap two variables can be done if encapsulated in array
+  grid[3][3] = new Piece("white");
+  grid[4][4] =  new Piece("white");
+
+  // debugger
 
   return grid;
 }
-
-console.log(_makeGrid());
 
 /**
  * Constructs a Board with a starting grid set up.
@@ -49,6 +51,11 @@ Board.prototype.isValidPos = function (pos) {
  * throwing an Error if the position is invalid.
  */
 Board.prototype.getPiece = function (pos) {
+  if (this.isValidPos(pos)) {
+    return this.grid[pos[0]][pos[1]];
+  } else {
+    throw new Error("Not valid pos!");
+  }
 };
 
 /**
@@ -56,12 +63,19 @@ Board.prototype.getPiece = function (pos) {
  * matches a given color.
  */
 Board.prototype.isMine = function (pos, color) {
+  const piece = this.getPiece(pos)
+  if (!piece) {
+    return false;
+  } else {
+    return piece.color === color;
+  }
 };
 
 /**
  * Checks if a given position has a piece on it.
  */
 Board.prototype.isOccupied = function (pos) {
+  return !!this.getPiece(pos);
 };
 
 /**
