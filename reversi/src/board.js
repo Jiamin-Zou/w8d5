@@ -11,7 +11,7 @@ if (typeof window === 'undefined'){ //typeof only checks for primitive data type
  * and two white pieces at [3, 3] and [4, 4]
  */
 function _makeGrid () {
-  const grid = Array(8).fill(null).map(() => Array(8).fill(undefined)); //need to fill with null to successfully map, default undefined array vals will not map
+  let grid = Array(8).fill(null).map(() => Array(8).fill(undefined)); //need to fill with null to successfully map, default undefined array vals will not map
   // const grid = Array(8).map((el) => Array(8).fill(undefined)); //not work if don't fill outer arr.
   grid[3][4] = new Piece("black");
   grid[4][3] = new Piece("black"); //swap two variables can be done if encapsulated in array
@@ -22,6 +22,7 @@ function _makeGrid () {
 
   return grid;
 }
+
 
 /**
  * Constructs a Board with a starting grid set up.
@@ -160,7 +161,18 @@ Board.prototype.isOver = function () {
  * Prints a string representation of the Board to the console.
  */
 Board.prototype.print = function () {
-};
+  let render = this.grid.map( row => {
+    return row.map(piece=> {
+      if (piece === undefined) {
+        return "-";
+      } else {
+        return piece.toString();
+      }
+    })
+  } )
+
+  return render;
+}
 
 
 // DON'T TOUCH THIS CODE
