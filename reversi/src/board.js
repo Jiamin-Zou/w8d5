@@ -92,6 +92,26 @@ Board.prototype.isOccupied = function (pos) {
  * Returns empty array if no pieces of the opposite color are found.
  */
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
+  piecesToFlip ||= [];
+  
+  // reach end of board
+  
+  if(!this.isValidPos(pos) || !this.isOccupied(pos)) {
+    return [];
+  } else if(this.getPiece(pos).color === color) {
+    if(piecesToFlip.length === 0) {
+      return [];
+    } else {
+      return piecesToFlip;
+    }
+    //piecesToFlip.empty? (3)
+    //else (4) recursive
+  } else {//if you find an enemy piece
+    piecesToFlip.push(this.getPiece(pos));
+    let newPos = [pos[0] + dir[0], pos[1] + dir[1]];
+    this._positionsToFlip(newPos, color, dir, piecesToFlip);
+  }
+  return piecesToFlip;
 };
 
 /**
