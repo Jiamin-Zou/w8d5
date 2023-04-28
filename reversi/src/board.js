@@ -1,5 +1,7 @@
+// const Piece = require("./piece.js");
+
 // DON'T TOUCH THIS CODE
-if (typeof window === 'undefined'){
+if (typeof window === 'undefined'){ //typeof only checks for primitive data types and object, //return is always encapsulated in string
   var Piece = require("./piece");
 }
 // DON'T TOUCH THIS CODE
@@ -9,8 +11,15 @@ if (typeof window === 'undefined'){
  * and two white pieces at [3, 3] and [4, 4]
  */
 function _makeGrid () {
-  const grid = 
+  const grid = Array(8).fill(null).map(() => Array(8).fill(undefined)); //need to fill with null to successfully map, default undefined array vals will not map
+  // const grid = Array(8).map((el) => Array(8).fill(undefined)); //not work if don't fill outer arr.
+  [grid[3][4], grid[4][3]] = [new Piece("black"), new Piece("black")]; //swap two variables can be done if encapsulated in array
+  [grid[3][3], grid[4][4]] = [new Piece("white"), new Piece("white")];
+
+  return grid;
 }
+
+console.log(_makeGrid());
 
 /**
  * Constructs a Board with a starting grid set up.
@@ -19,7 +28,7 @@ function Board () {
   this.grid = _makeGrid();
 }
 
-Board.DIRS = [
+Board.DIRS = [ //this is a class property. allcaps stylistically indicate constant (conceptually)
   [ 0,  1], [ 1,  1], [ 1,  0],
   [ 1, -1], [ 0, -1], [-1, -1],
   [-1,  0], [-1,  1]
@@ -29,6 +38,10 @@ Board.DIRS = [
  * Checks if a given position is on the Board.
  */
 Board.prototype.isValidPos = function (pos) {
+  const first = ((pos[0] <= 7) && (pos[0] >= 0));
+  const second = ((pos[1] <= 7) && (pos[1] >= 0));
+  const result = (first && second);
+  return result;
 };
 
 /**

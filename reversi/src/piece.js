@@ -1,3 +1,5 @@
+// module.exports = Piece;
+
 /**
  * Initializes the Piece with its color.
  */
